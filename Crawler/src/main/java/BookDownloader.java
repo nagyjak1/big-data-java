@@ -18,6 +18,10 @@ public class BookDownloader {
         }
     }
 
+    private void bookDownloader2(int booksNumber) throws IOException {
+        bookDownloader(booksNumber, directory);
+    }
+
     public static void main(String[] args) throws IOException {
         new BookDownloader().bookDownloader(10, directory);
     }

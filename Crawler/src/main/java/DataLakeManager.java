@@ -1,3 +1,7 @@
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
@@ -7,34 +11,43 @@ import java.nio.file.Paths;
 import java.security.InvalidParameterException;
 import java.util.LinkedList;
 
+
+
 public class DataLakeManager {
 
     private final Path root;
     private final Integer dirCapacity;
     private Integer capacity;
 
+    private static final Logger logger = LogManager.getLogger(DataLakeManager.class);
+
 
     public DataLakeManager(Path root, Integer capacity, Integer dirCapacity) throws IOException {
+
+        logger.log(Level.INFO, "Creating DataLakeManager");
 
         if ((Math.log10(capacity) % 1) != 0) throw new InvalidParameterException("Capacity must be a power of 10");
         if ((Math.log10(dirCapacity) % 1) != 0)
             throw new InvalidParameterException("dirCapacity must be a power of 10");
 
         try {
+            logger.log(Level.INFO, "Trying to create root directory for the datalake");
             Files.createDirectories(root);
+            logger.log(Level.INFO, "Root directory created");
         } catch (FileAlreadyExistsException ex) {
-            System.out.println("Root directory already created");
+            logger.log(Level.INFO, "Root directory already created");
         }
 
         this.root = root;
         this.capacity = capacity;
         this.dirCapacity = dirCapacity;
         if ( ! isStructureCreated() ) {
+            logger.log(Level.INFO, "Creating directory structure");
             createStructure();
         }
         else {
             this.capacity = calculateCapacity();
-            System.out.println("Structure is already created, skipping creation");
+            logger.log(Level.INFO, "Structure is already created, skipping creation");
         }
     }
 
@@ -124,10 +137,13 @@ public class DataLakeManager {
         Path dirPath = getFilePath(id);
         Path path = this.root.resolve(dirPath);
         try {
+            logger.log(Level.INFO, "Creating file with id: " + id);
             Files.createFile( path );
         } catch (IOException e) {
+            logger.log(Level.ERROR, "File with id: " + id + "already exists");
             throw new RuntimeException(e);
         }
+        logger.log(Level.INFO, "File with id: " + id + "created");
         return new File( path.toUri() );
     }
 }

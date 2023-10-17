@@ -7,10 +7,8 @@ import java.security.InvalidParameterException;
 public class DataLakeManager {
 
     private final Path root;
-
-    private final Integer capacity;
-
     private final Integer dirCapacity;
+    private Integer capacity;
 
 
     public DataLakeManager(Path root, Integer capacity, Integer dirCapacity) throws IOException {
@@ -19,11 +17,52 @@ public class DataLakeManager {
         if ((Math.log10(dirCapacity) % 1) != 0)
             throw new InvalidParameterException("dirCapacity must be a power of 10");
 
+        try {
+            Files.createDirectories(root);
+        } catch (FileAlreadyExistsException ex) {
+            System.out.println(ex);
+        }
+
         this.root = root;
         this.capacity = capacity;
         this.dirCapacity = dirCapacity;
         createStructure();
     }
+
+    void createStructure() throws IOException {
+        Integer dirSizeDigits = (int) Math.log10(this.dirCapacity);
+        Integer capacityDigits = (int) Math.log10(this.capacity);
+        createStructureHelper(this.root, 0, capacityDigits - dirSizeDigits);
+    }
+
+    void createStructureHelper(Path location, int currentDepth, int maxDepth) throws IOException {
+        if (currentDepth == maxDepth) return;
+
+        for (int i = 0; i < 10; i++) {
+            Path path = location.resolve(i + "");
+
+            try {
+                Files.createDirectory(path);
+            } catch (FileAlreadyExistsException ex) {
+                System.out.println(ex);
+            }
+
+            createStructureHelper(path, currentDepth + 1, maxDepth);
+        }
+    }
+
+    void increaseCapacity() throws IOException {
+        capacity *= 10;
+
+        Files.createDirectory(root.resolve("tmp"));
+        for (int i = 0; i < 10; i++)
+            Files.move(root.resolve(i + ""), root.resolve("tmp").resolve(i + ""));
+
+        Files.move(root.resolve("tmp"), root.resolve(0 + ""));
+
+        createStructure();
+    }
+
 
 
 
@@ -64,24 +103,4 @@ public class DataLakeManager {
         return true;
     }*/
 
-    void createStructure() throws IOException {
-        Integer dirSizeDigits = (int) Math.log10(this.dirCapacity);
-        Integer capacityDigits = (int) Math.log10(this.capacity);
-        createStructureHelper(this.root, 0, capacityDigits - dirSizeDigits);
-    }
-
-    void createStructureHelper(Path location, int currentDepth, int maxDepth) throws IOException {
-        if (currentDepth == maxDepth) return;
-
-        for (int i = 0; i < 10; i++) {
-            Path path = location.resolve(i + "");
-            try {
-                Files.createDirectory(path);
-            } catch (FileAlreadyExistsException ex) {
-                System.out.println(ex);
-            }
-
-            createStructureHelper(path, currentDepth + 1, maxDepth);
-        }
-    }
 }

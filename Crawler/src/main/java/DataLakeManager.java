@@ -1,4 +1,4 @@
-import javax.tools.StandardJavaFileManager;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -23,13 +23,23 @@ public class DataLakeManager {
         try {
             Files.createDirectories(root);
         } catch (FileAlreadyExistsException ex) {
-            System.out.println(ex);
+            System.out.println("Root directory already created");
         }
 
         this.root = root;
         this.capacity = capacity;
         this.dirCapacity = dirCapacity;
-        createStructure();
+        if ( ! isStructureCreated() ) {
+            createStructure();
+        }
+        else {
+            this.capacity = calculateCapacity();
+            System.out.println("Structure is already created, skipping creation");
+        }
+    }
+
+    boolean isStructureCreated() {
+        return root.toFile().listFiles().length != 0;
     }
 
     void createStructure() throws IOException {
@@ -47,11 +57,22 @@ public class DataLakeManager {
             try {
                 Files.createDirectory(path);
             } catch (FileAlreadyExistsException ex) {
-                System.out.println(ex);
+                continue;
             }
 
             createStructureHelper(path, currentDepth + 1, maxDepth);
         }
+    }
+
+    int calculateCapacity() {
+        return calculateCapacityHelper(1, this.root);
+    }
+
+    int calculateCapacityHelper( int capacity, Path root ) {
+        File[] files = root.toFile().listFiles();
+        if ( files.length == 0 || !Files.isDirectory(files[0].toPath()) )
+            return capacity*this.dirCapacity;
+        return calculateCapacityHelper( 10*capacity, root.resolve( files[0].getName() ));
     }
 
     void increaseCapacity() throws IOException {
@@ -99,17 +120,14 @@ public class DataLakeManager {
         return Paths.get(res);
     }
 
-
-    boolean createFile(int id) {
-
+    File createFile(int id) {
         Path dirPath = getFilePath(id);
         Path path = this.root.resolve(dirPath);
         try {
-            path.toFile().createNewFile();
+            Files.createFile( path );
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return true;
+        return new File( path.toUri() );
     }
-
 }

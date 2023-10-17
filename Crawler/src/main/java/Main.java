@@ -7,17 +7,10 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        /*Path path = Paths.get("/Users/jakub/Desktop/DataLake");
-        Crawler crawler = new Crawler(path);
-
-        URL url = new URL("https://www.gutenberg.org/cache/epub/84/pg84-images.html");
-        crawler.downloadContent(url);
-        */
-
         Path path = Paths.get("/Users/jakub/Desktop/SearchEngine/Crawler/data");
-        DataLakeManager dataLakeManager = new DataLakeManager(path, 100000, 100);
+        DataLakeManager dataLakeManager = new DataLakeManager(path, 10000, 100);
 
+        dataLakeManager.createFile(1023);
 
-        //dataLakeManager.increaseCapacity();
     }
 }

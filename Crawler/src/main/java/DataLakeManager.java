@@ -1,8 +1,11 @@
+import javax.tools.StandardJavaFileManager;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.InvalidParameterException;
+import java.util.LinkedList;
 
 public class DataLakeManager {
 
@@ -64,12 +67,10 @@ public class DataLakeManager {
     }
 
 
+    public Path getFilePath (int documentId) {
 
-
-  /*  public LinkedList<Integer> getDirPath(int documentId) {
-
-        Integer documentFile = documentId % this.dirSize;
-        documentId = documentId / this.dirSize;
+        Integer fileName = documentId % this.dirCapacity;
+        documentId = documentId / this.dirCapacity;
 
         LinkedList<Integer> path = new LinkedList<>();
 
@@ -78,29 +79,37 @@ public class DataLakeManager {
             documentId = documentId / 10;
         }
 
-        path.addLast(documentFile);
+        path.addLast(fileName);
 
-        for (int i = path.size() + this.dirSize; i < this.dirTreeDepth; i++) {
+        for (int i = path.size()-1 + (int)Math.log10(this.dirCapacity); i < Math.log10(this.capacity); i++)
             path.addFirst(0);
-        }
 
-        return path;
+        return createPathFromLinkedList( path );
     }
 
-    boolean createFile( int id ) {
-        Path path = this.root;
-        LinkedList<Integer> dirPath = getDirPath( id );
-        for ( int dir : dirPath ) {
-            path = path.resolve( dir + "");
+    public Path createPathFromLinkedList( LinkedList<Integer> list ) {
+        String res = "";
+        for (Integer i : list) {
+            if (i.equals(list.getLast()))
+                res = res.concat(i + ".txt");
+            else {
+                res = res.concat(i + "/");
+            }
         }
+        return Paths.get(res);
+    }
+
+
+    boolean createFile(int id) {
+
+        Path dirPath = getFilePath(id);
+        Path path = this.root.resolve(dirPath);
         try {
             path.toFile().createNewFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println( path.getFileName() );
-        System.out.println(path);
         return true;
-    }*/
+    }
 
 }

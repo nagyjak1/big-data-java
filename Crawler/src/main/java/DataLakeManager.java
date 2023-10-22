@@ -3,6 +3,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -12,14 +13,12 @@ import java.security.InvalidParameterException;
 import java.util.LinkedList;
 
 
-
 public class DataLakeManager {
 
+    private static final Logger logger = LogManager.getLogger(DataLakeManager.class);
     private final Path root;
     private final Integer dirCapacity;
     private Integer capacity;
-
-    private static final Logger logger = LogManager.getLogger(DataLakeManager.class);
 
 
     public DataLakeManager(Path root, Integer capacity, Integer dirCapacity) throws IOException {
@@ -41,11 +40,10 @@ public class DataLakeManager {
         this.root = root;
         this.capacity = capacity;
         this.dirCapacity = dirCapacity;
-        if ( ! isStructureCreated() ) {
+        if (!isStructureCreated()) {
             logger.log(Level.INFO, "Creating directory structure");
             createStructure();
-        }
-        else {
+        } else {
             this.capacity = calculateCapacity();
             logger.log(Level.INFO, "Structure is already created, skipping creation");
         }
@@ -81,11 +79,10 @@ public class DataLakeManager {
         return calculateCapacityHelper(1, this.root);
     }
 
-    int calculateCapacityHelper( int capacity, Path root ) {
+    int calculateCapacityHelper(int capacity, Path root) {
         File[] files = root.toFile().listFiles();
-        if ( files.length == 0 || !Files.isDirectory(files[0].toPath()) )
-            return capacity*this.dirCapacity;
-        return calculateCapacityHelper( 10*capacity, root.resolve( files[0].getName() ));
+        if (files.length == 0 || !Files.isDirectory(files[0].toPath())) return capacity * this.dirCapacity;
+        return calculateCapacityHelper(10 * capacity, root.resolve(files[0].getName()));
     }
 
     void increaseCapacity() throws IOException {
@@ -101,7 +98,7 @@ public class DataLakeManager {
     }
 
 
-    public Path getFilePath (int documentId) {
+    public Path getFilePath(int documentId) {
 
         Integer fileName = documentId % this.dirCapacity;
         documentId = documentId / this.dirCapacity;
@@ -115,17 +112,16 @@ public class DataLakeManager {
 
         path.addLast(fileName);
 
-        for (int i = path.size()-1 + (int)Math.log10(this.dirCapacity); i < Math.log10(this.capacity); i++)
+        for (int i = path.size() - 1 + (int) Math.log10(this.dirCapacity); i < Math.log10(this.capacity); i++)
             path.addFirst(0);
 
-        return createPathFromLinkedList( path );
+        return createPathFromLinkedList(path);
     }
 
-    public Path createPathFromLinkedList( LinkedList<Integer> list ) {
+    public Path createPathFromLinkedList(LinkedList<Integer> list) {
         String res = "";
         for (Integer i : list) {
-            if (i.equals(list.getLast()))
-                res = res.concat(i + ".txt");
+            if (i.equals(list.getLast())) res = res.concat(i + ".txt");
             else {
                 res = res.concat(i + "/");
             }
@@ -138,12 +134,26 @@ public class DataLakeManager {
         Path path = this.root.resolve(dirPath);
         try {
             logger.log(Level.INFO, "Creating file with id: " + id);
-            Files.createFile( path );
+            Files.createFile(path);
         } catch (IOException e) {
             logger.log(Level.ERROR, "File with id: " + id + "already exists");
             throw new RuntimeException(e);
         }
         logger.log(Level.INFO, "File with id: " + id + "created");
-        return new File( path.toUri() );
+        return new File(path.toUri());
+    }
+
+    public void deleteRootDirectory() {
+        deleteDirectory( this.root.toFile() );
+    }
+
+    private void deleteDirectory(File file) {
+        File[] allContents = file.listFiles();
+        if (allContents != null) {
+            for (File f : allContents) {
+                deleteDirectory(f);
+            }
+        }
+        file.delete();
     }
 }

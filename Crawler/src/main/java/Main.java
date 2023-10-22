@@ -9,6 +9,11 @@ public class Main {
 
         File file = new File("Crawler/data");
         Path path = Paths.get(file.getPath());
+
         DataLakeManager dataLakeManager = new DataLakeManager(path, 1000, 100);
+
+
+        //dataLakeManager.deleteRootDirectory();
     }
+
 }

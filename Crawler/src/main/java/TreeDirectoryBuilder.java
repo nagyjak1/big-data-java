@@ -3,7 +3,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -13,15 +12,15 @@ import java.security.InvalidParameterException;
 import java.util.LinkedList;
 
 
-public class DataLakeManager {
+public class TreeDirectoryBuilder {
 
-    private static final Logger logger = LogManager.getLogger(DataLakeManager.class);
+    private static final Logger logger = LogManager.getLogger(TreeDirectoryBuilder.class);
     private final Path root;
     private final Integer dirCapacity;
     private Integer capacity;
 
 
-    public DataLakeManager(Path root, Integer capacity, Integer dirCapacity) throws IOException {
+    public TreeDirectoryBuilder(Path root, Integer capacity, Integer dirCapacity) throws IOException {
 
         logger.log(Level.INFO, "Creating DataLakeManager");
 

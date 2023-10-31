@@ -2,18 +2,18 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Random;
 
 public class Main {
-
     public static void main(String[] args) throws IOException {
 
-        File file = new File("Crawler/data");
-        Path path = Paths.get(file.getPath());
+        DatalakeManager datalakeManager = new DatalakeManager();
+        datalakeManager.build("Crawler/datalake");
 
-        DataLakeManager dataLakeManager = new DataLakeManager(path, 1000, 100);
+        String directory = new DateTreeDirectoryBuider().getPath("Crawler/datalake");
 
-
-        //dataLakeManager.deleteRootDirectory();
+        BookDownloader bookDownloader = new BookDownloader();
+        bookDownloader.bookDownloader("Crawler/datalake");
     }
 
 }

@@ -6,8 +6,8 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 public class Indexer {
-    private DatamartManager datamartManager = new DatamartManager();
-    private FileReader fileReader = new FileReader();
+    private final DatamartManager datamartManager = new DatamartManager();
+    private final FileReader fileReader = new FileReader();
 
     public void invertedIndex(String datalakePath) throws IOException {
         try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(datalakePath))) {

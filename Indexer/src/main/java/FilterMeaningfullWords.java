@@ -8,9 +8,6 @@ public class FilterMeaningfullWords {
         if (prepositions.contains(word) || determiners.contains(word)) {
             return false;
         }
-        if (word.length() <= 2 ) {
-            return false;
-        }
-        return true;
+        return word.length() > 2;
     }
 }

@@ -2,7 +2,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public interface MeaningfullWords {
-    Set <String> prepositions = new HashSet<>(Set.of(
+    Set<String> prepositions = new HashSet<>(Set.of(
             "about", "above", "across", "after", "against", "along", "amid", "among",
             "around", "before", "behind", "below", "beneath", "beside", "between",
             "beyond", "but", "concerning", "considering", "despite", "down",
@@ -12,7 +12,7 @@ public interface MeaningfullWords {
             "until", "unto", "upon", "with", "within", "without", "close", "front"
     ));
 
-    Set <String> determiners = new HashSet<>(Set.of(
+    Set<String> determiners = new HashSet<>(Set.of(
             "the", "some", "any", "all", "many", "few", "several",
             "both", "neither", "either", "each", "every", "this", "that",
             "your", "his", "her", "its", "our", "their",

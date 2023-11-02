@@ -9,7 +9,8 @@ import java.util.Scanner;
 
 public class FileReader {
     private final FilterMeaningfullWords meaningfullWords = new FilterMeaningfullWords();
-    public String getBookId (Path file){
+
+    public String getBookId(Path file) {
         String fileNameWithExtension = file.getFileName().toString();
         String regex = "book(\\d+)\\.txt";
         String bookId = fileNameWithExtension.replaceAll(regex, "$1");
@@ -34,7 +35,7 @@ public class FileReader {
         return null;
     }
 
-    public Map<String, Integer> wordTokenizer (Path file) throws IOException {
+    public Map<String, Integer> wordTokenizer(Path file) throws IOException {
         String fileContent = new String(Files.readAllBytes(file), "UTF-8");
         Scanner scanner = new Scanner(fileContent);
         Map<String, Integer> words = new HashMap();
@@ -48,7 +49,7 @@ public class FileReader {
         return words;
     }
 
-    private void addToDictionary(String word, Map < String, Integer > words){
+    private void addToDictionary(String word, Map<String, Integer> words) {
         if (meaningfullWords.isMeaningfulWord(word)) {
             if (words.containsKey(word)) {
                 words.put(word, words.get(word) + 1);

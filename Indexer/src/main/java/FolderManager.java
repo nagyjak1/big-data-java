@@ -1,18 +1,18 @@
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
+import java.io.IOException;
 
 public class FolderManager {
 
-    public FolderManager() {
-    }
+    public void createLibrary() {
 
-    public void createLibrary(){
-
-        File separatedFolder = new File("Indexer/Library");
+        File libraryFolder = new File("Indexer/Library");
         File metadataFolder = new File("Indexer/Library/Metadata");
         File contentFolder = new File("Indexer/Library/Content");
 
-        if (!separatedFolder.exists()) {
-            separatedFolder.mkdir();
+        if (!libraryFolder.exists()) {
+            libraryFolder.mkdir();
         }
         if (!metadataFolder.exists()) {
             metadataFolder.mkdir();
@@ -30,4 +30,13 @@ public class FolderManager {
         return "Indexer/Library/Metadata";
     }
 
+    public void deleteLibrary() {
+        File folder = new File("Indexer/Library/");
+        try {
+            FileUtils.deleteDirectory(folder);
+            System.out.println("Folder deleted successfully.");
+        } catch (IOException e) {
+            System.err.println("Failed to delete the folder: " + e.getMessage());
+        }
+    }
 }

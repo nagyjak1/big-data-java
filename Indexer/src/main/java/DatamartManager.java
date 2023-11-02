@@ -24,12 +24,12 @@ public class DatamartManager {
             String wordFilePath = Paths.get(FolderPath, word + ".txt").toAbsolutePath().toString();
             createFile(wordFilePath);
             writeFile(wordFilePath, bookTitle, bookId, words.get(word).toString());
-            n+=1;
+            n += 1;
         }
         System.out.println(n);
     }
 
-    private static String getFolderPath(String word){
+    private static String getFolderPath(String word) {
         String firstLetter = word.substring(0, 1).toLowerCase();
         String secondLetter = word.substring(1, 2).toLowerCase();
         String firstLetterFolderPath = Paths.get(DATAMART_PATH, firstLetter).toString();

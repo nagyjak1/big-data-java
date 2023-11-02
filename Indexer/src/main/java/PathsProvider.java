@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class PathsProvider {
-    public PathsProvider() {
-    }
-
     public List<String> provideAll(String path) throws IOException {
         Stream<Path> walk = Files.walk(Paths.get(path));
         return walk.filter(f -> !Files.isDirectory(f))

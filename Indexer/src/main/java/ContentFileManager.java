@@ -2,12 +2,8 @@ import java.io.*;
 import java.io.FileReader;
 
 public class ContentFileManager implements FileManager {
-
-    public ContentFileManager() {
-    }
-
     @Override
-    public void separate(File file){
+    public void separate(File file) {
         StringBuilder content = new StringBuilder();
         boolean startContent = false;
 
@@ -18,7 +14,7 @@ public class ContentFileManager implements FileManager {
                     startContent = true;
                     continue;
                 }
-                if (startContent){
+                if (startContent) {
                     content.append(line).append("\n");
                 }
             }

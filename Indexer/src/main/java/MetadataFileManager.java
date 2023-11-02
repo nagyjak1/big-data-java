@@ -1,7 +1,7 @@
 import java.io.*;
 import java.io.FileReader;
 
-public class MetadataFileManager implements FileManager{
+public class MetadataFileManager implements FileManager {
 
     public MetadataFileManager() {
     }
@@ -14,7 +14,7 @@ public class MetadataFileManager implements FileManager{
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.trim().startsWith("***")) {
-                   break;
+                    break;
                 } else {
                     metadata.append(line).append("\n");
                 }

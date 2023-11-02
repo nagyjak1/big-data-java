@@ -2,7 +2,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class Controller {
-    public void controller(){
+    public void controller() {
         DatamartManager datamartManager = new DatamartManager();
         datamartManager.createDatamart();
 
@@ -15,7 +15,7 @@ public class Controller {
         MetadataFileManager metadataFileManager = new MetadataFileManager();
 
         try {
-            for (String path : pathsProvider.provideAll("/Users/haito/ULPGC/TERCERO/BigData/Final Project/SearchEngine/big-data-java/Crawler/datalake/2023/11/02/")){
+            for (String path : pathsProvider.provideAll("/Users/haito/ULPGC/TERCERO/BigData/Final Project/SearchEngine/big-data-java/Crawler/datalake/2023/11/02/")) {
                 metadataFileManager.separate(new File(path));
                 contentFileManager.separate(new File(path));
             }
@@ -29,5 +29,7 @@ public class Controller {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        folderManager.deleteLibrary();
     }
 }

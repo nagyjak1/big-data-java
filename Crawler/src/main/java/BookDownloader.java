@@ -21,5 +21,4 @@ public class BookDownloader {
         int lastDigit = Integer.parseInt(String.valueOf(randInt).
                 substring(String.valueOf(randInt).length() - 1));
         return directory + "/" + lastDigit + "/";
-    }
 }

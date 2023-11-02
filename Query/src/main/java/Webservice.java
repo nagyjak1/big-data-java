@@ -6,7 +6,7 @@ import java.util.*;
 import static spark.Spark.get;
 
 public class Webservice {
-    private final String root = "Query/src/main/resources/datamart/";
+    private final String root = "Indexer/datamart/";
 
     public void browse() {
         get("/search/:word", (req, res) -> response(req.params(":word")));

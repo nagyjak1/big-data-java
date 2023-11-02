@@ -3,10 +3,14 @@ import static spark.Spark.*;
 public class Webservice {
     private final String root = "Indexer/datamart/";
 
-    public static void main(String[] args) {
-        get("/hello", (req, res) -> "Hello World");
+    public void run() {
     }
 
-    public void run() {
+    public void browse() {
+        get("/search/:word", (req, res) -> response(req.params(":word")));
+    }
+
+    public String response(String word) {
+        return null;
     }
 }

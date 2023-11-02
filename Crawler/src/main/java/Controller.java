@@ -1,11 +1,10 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
 public class Controller {
-    private final int MAX_BOOKS = 20;
+    private final int MAX_BOOKS = 70_000;
     private final int MAX_ITERS = 11;
 
     public void execute(Set<Integer> usedNumbers) throws IOException {

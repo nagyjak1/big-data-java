@@ -1,7 +1,7 @@
 public class DatamartPathBuilder {
-    public String build(String root) {
-        char firstChar = new WordParser().parseCharacter(root, 0);
-        char secondChar = new WordParser().parseCharacter(root, 1);
-        return root + "/" + firstChar + "/" + secondChar + "/";
+    public String build(String word) {
+        char firstChar = new WordParser().parseCharacter(word, 0);
+        char secondChar = new WordParser().parseCharacter(word, 1);
+        return firstChar + "/" + secondChar + "/";
     }
 }

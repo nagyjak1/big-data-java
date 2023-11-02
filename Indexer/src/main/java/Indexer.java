@@ -6,9 +6,6 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 public class Indexer {
-
-    //TODO: Hacer que se adapte al datalake
-
     private DatamartManager datamartManager = new DatamartManager();
     private FileReader fileReader = new FileReader();
 

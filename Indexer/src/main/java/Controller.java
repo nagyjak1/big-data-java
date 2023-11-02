@@ -1,5 +1,3 @@
-
-
 import java.io.File;
 import java.io.IOException;
 
@@ -17,7 +15,7 @@ public class Controller {
         MetadataFileManager metadataFileManager = new MetadataFileManager();
 
         try {
-            for (String path : pathsProvider.provideAll("path")){
+            for (String path : pathsProvider.provideAll("/Users/haito/ULPGC/TERCERO/BigData/Final Project/SearchEngine/big-data-java/Crawler/datalake/2023/11/02/")){
                 metadataFileManager.separate(new File(path));
                 contentFileManager.separate(new File(path));
             }
@@ -27,7 +25,7 @@ public class Controller {
 
         Indexer indexer = new Indexer();
         try {
-            indexer.invertedIndex(folderManager.getContentPath());
+            indexer.invertedIndex(folderManager.getContentPath(), folderManager.getMetadataPath());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

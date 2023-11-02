@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,17 +11,27 @@ public class FileReader {
     private final FilterMeaningfullWords meaningfullWords = new FilterMeaningfullWords();
     public String getBookId (Path file){
         String fileNameWithExtension = file.getFileName().toString();
-        String regex = "pg(\\d+)\\.txt";
+        String regex = "book(\\d+)\\.txt";
         String bookId = fileNameWithExtension.replaceAll(regex, "$1");
         return bookId;
     }
-    public String getBookTitle (Path file) throws IOException {
-        try (Scanner scanner = new Scanner(file)) {
-            if (scanner.hasNextLine()) {
-                return scanner.nextLine();
+
+    public String getBookTitle(Path file) throws IOException {
+        try {
+            File f = new File(String.valueOf(file));
+            Scanner scanner = new Scanner(f);
+            while (scanner.hasNextLine()) {
+                String data = scanner.nextLine();
+                if (data.startsWith("Title: ")) {
+                    return data.replace("Title: ", "");
+                }
             }
-            return null;
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
+        return null;
     }
 
     public Map<String, Integer> wordTokenizer (Path file) throws IOException {

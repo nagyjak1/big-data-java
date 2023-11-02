@@ -26,7 +26,7 @@ public class ContentFileManager implements FileManager {
             e.printStackTrace();
         }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Indexer/Library/Content" + file.getName()))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Indexer/Library/Content/" + file.getName()))) {
             writer.write(content.toString());
         } catch (IOException e) {
             e.printStackTrace();

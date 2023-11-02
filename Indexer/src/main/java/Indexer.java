@@ -9,17 +9,28 @@ public class Indexer {
     private final DatamartManager datamartManager = new DatamartManager();
     private final FileReader fileReader = new FileReader();
 
-    public void invertedIndex(String datalakePath) throws IOException {
-        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(datalakePath))) {
+    public void invertedIndex(String contentPath, String metadataPath) throws IOException {
+        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(contentPath))) {
             for (Path file : directoryStream) {
                 if (Files.isRegularFile(file) && file.toString().endsWith(".txt")) {
                     String bookId = fileReader.getBookId(file);
-                    String bookTitle = fileReader.getBookTitle(file);
+                    String bookTitle = getTitle(metadataPath);
                     Map<String, Integer> words = fileReader.wordTokenizer(file);
                     datamartManager.addWordToDatamart(words, bookId, bookTitle);
                 }
             }
         }
+    }
+
+    public String getTitle(String metadataPath) throws IOException {
+        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(metadataPath))) {
+            for (Path file : directoryStream) {
+                if (Files.isRegularFile(file) && file.toString().endsWith(".txt")) {
+                    return fileReader.getBookTitle(file);
+                }
+            }
+        }
+        return null;
     }
 }
 

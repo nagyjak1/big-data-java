@@ -22,11 +22,11 @@ public class FolderManager {
         }
     }
 
-    public String getContentPath(){
+    public String getContentPath() {
         return "Indexer/Library/Content";
     }
 
-    public String getMetadataPath(){
+    public String getMetadataPath() {
         return "Indexer/Library/Metadata";
     }
 

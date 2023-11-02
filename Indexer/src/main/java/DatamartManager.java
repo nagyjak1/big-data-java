@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
+
 public class DatamartManager {
 
-    private static final String DATAMART_PATH = "src\\main\\resources\\datamart";
+    private static final String DATAMART_PATH = "Indexer/datamart/";
 
     public void createDatamart() {
         File datamart = new File(DATAMART_PATH);

@@ -11,9 +11,7 @@ public class DateTreeDirectoryBuider {
 
     public void createDirectory(String root) {
         File file = new File(root + "/" + datePath);
-        if (!file.exists()) {
-            file.mkdirs();
-        }
+        new FileManager().createDirectory(file.getPath());
     }
 
     public String getPath(String root) {

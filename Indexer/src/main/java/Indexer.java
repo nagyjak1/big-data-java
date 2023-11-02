@@ -9,7 +9,7 @@ public class Indexer {
     private final DatamartManager datamartManager = new DatamartManager();
     private final FileReader fileReader = new FileReader();
 
-    public void invertedIndex(String contentPath) throws IOException, InterruptedException {
+    public void invertedIndex(String contentPath) throws IOException {
         try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(contentPath))) {
             for (Path file : directoryStream) {
                 if (Files.isRegularFile(file) && file.toString().endsWith(".txt")) {
@@ -22,13 +22,10 @@ public class Indexer {
         }
     }
 
-    public String getTitle(String metadataPath) throws IOException {
-        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(metadataPath))) {
-            for (Path file : directoryStream) {
-                if (Files.isRegularFile(file) && file.toString().endsWith(".txt")) {
-                    return fileReader.getBookTitle(file);
-                }
-            }
+    public String getTitle(String file) throws IOException {
+        Path path = Path.of(file);
+        if (Files.isRegularFile(path) && file.endsWith(".txt")) {
+            return fileReader.getBookTitle(path);
         }
         return null;
     }

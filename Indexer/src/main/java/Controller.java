@@ -17,7 +17,7 @@ public class Controller {
         MetadataFileManager metadataFileManager = new MetadataFileManager();
 
         try {
-            for (String path : pathsProvider.provideAll("Crawler/datalake/2023/11/02/")) {
+            for (String path : pathsProvider.provideAll("Crawler/datalake/")) {
                 metadataFileManager.separate(new File(path));
                 contentFileManager.separate(new File(path));
             }

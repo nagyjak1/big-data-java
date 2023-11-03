@@ -15,19 +15,14 @@ public class Webservice {
     public String response(String word) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String filePath = root + new DatamartPathBuilder().build(word) + word + ".txt";
-        Word wordObject = new WordReader().read(filePath);
-        sort(wordObject);
-        return gson.toJson(wordObject.titles());
+        List<Response> response = new WordReader().read(filePath);
+        Word wordTitles = new WordBuilder().build(sort(response));
+        return gson.toJson(wordTitles.titles());
     }
 
-    public void sort(Word word) {
-        Collections.sort(word.titles(), new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                int index1 = word.titles().indexOf(s1);
-                int index2 = word.titles().indexOf(s2);
-                return Integer.compare(word.appearance().get(index2), word.appearance().get(index1));
-            }
-        });
+    public List<Response> sort(List<Response> response) {
+        Comparator<Response> comparator = Comparator.comparingInt(Response::appearance).reversed();
+        response.sort(comparator);
+        return response;
     }
 }

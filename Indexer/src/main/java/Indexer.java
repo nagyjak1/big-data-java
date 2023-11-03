@@ -25,7 +25,7 @@ public class Indexer {
     public String getTitle(String file) throws IOException {
         Path path = Path.of(file);
         if (Files.isRegularFile(path) && file.endsWith(".txt")) {
-            return fileReader.getBookTitle(path);
+            return fileReader.getBookId(path).replace(";", ":");
         }
         return null;
     }

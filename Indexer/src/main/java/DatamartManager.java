@@ -17,16 +17,13 @@ public class DatamartManager {
     }
 
     public void addWordToDatamart(Map<String, Integer> words, String bookTitle, String bookId) throws IOException {
-        int n = 0;
         for (String word : words.keySet()) {
             String FolderPath = getFolderPath(word);
             Files.createDirectories(Paths.get(FolderPath));
             String wordFilePath = Paths.get(FolderPath, word + ".txt").toAbsolutePath().toString();
             createFile(wordFilePath);
             writeFile(wordFilePath, bookTitle, bookId, words.get(word).toString());
-            n += 1;
         }
-        System.out.println(n);
     }
 
     private static String getFolderPath(String word) {

@@ -2,10 +2,6 @@ import java.io.*;
 import java.io.FileReader;
 
 public class MetadataFileManager implements FileManager {
-
-    public MetadataFileManager() {
-    }
-
     @Override
     public void separate(File file) throws FileNotFoundException {
         StringBuilder metadata = new StringBuilder();
@@ -13,7 +9,7 @@ public class MetadataFileManager implements FileManager {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
-                if (line.trim().startsWith("***")) {
+                if (line.trim().startsWith("*** START OF THE PROJECT GUTENBERG")) {
                     break;
                 } else {
                     metadata.append(line).append("\n");

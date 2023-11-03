@@ -4,6 +4,8 @@ import java.io.IOException;
 import static java.lang.Thread.sleep;
 
 public class Controller {
+    private final String root = "Crawler/datalake/";
+
     public void controller() throws InterruptedException {
         DatamartManager datamartManager = new DatamartManager();
         datamartManager.createDatamart();
@@ -17,7 +19,7 @@ public class Controller {
         MetadataFileManager metadataFileManager = new MetadataFileManager();
 
         try {
-            for (String path : pathsProvider.provideAll("Crawler/datalake/")) {
+            for (String path : pathsProvider.provideAll(new DatePathBuilder().getPath(root))) {
                 metadataFileManager.separate(new File(path));
                 contentFileManager.separate(new File(path));
             }

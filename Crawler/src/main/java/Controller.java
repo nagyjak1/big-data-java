@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class Controller {
     private final int MAX_BOOKS = 70_000;
-    private final int MAX_ITERS = 11;
+    private final int MAX_ITERS = 2;
 
     public void execute(Set<Integer> usedNumbers) throws IOException {
         new DatalakeManager().build("Crawler/datalake");

@@ -12,9 +12,11 @@ public class BookDownloader {
     public void downloadInto(String directory, int randInt) throws IOException {
         String bookName = "book" + randInt + extension;
         String finalDirectory = buildDirectory(randInt, directory) + bookName;
-        URL url = new URL(bookUrl + randInt + page + randInt + extension);
-        File file = new File(finalDirectory);
-        FileUtils.copyURLToFile(url, file);
+        if (new FileEncodingHandler().checkFileEncoding(finalDirectory)) {
+            URL url = new URL(bookUrl + randInt + page + randInt + extension);
+            File file = new File(finalDirectory);
+            FileUtils.copyURLToFile(url, file);
+        }
     }
 
     private String buildDirectory(int randInt, String directory) {

@@ -20,8 +20,11 @@ public class Controller {
 
         try {
             for (String path : pathsProvider.provideAll(new DatePathBuilder().getPath(root))) {
-                metadataFileManager.separate(new File(path));
-                contentFileManager.separate(new File(path));
+                Metadata metadata = new MetadataBuilder().build(path);
+                if (metadata.isInEnglish()) {
+                    metadataFileManager.separate(new File(path));
+                    contentFileManager.separate(new File(path));
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

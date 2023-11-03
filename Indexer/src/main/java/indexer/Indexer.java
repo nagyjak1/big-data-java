@@ -1,3 +1,9 @@
+package indexer;
+
+import datalakereader.FileReader;
+import datamarthandler.DatamartManager;
+import library.FolderManager;
+
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;

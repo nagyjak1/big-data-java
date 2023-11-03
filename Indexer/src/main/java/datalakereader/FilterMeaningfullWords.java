@@ -1,3 +1,5 @@
+package datalakereader;
+
 import java.util.Set;
 
 public class FilterMeaningfullWords {

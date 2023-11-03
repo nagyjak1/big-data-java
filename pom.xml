@@ -11,7 +11,7 @@
 
     <modules>
         <module>Crawler</module>
-        <module>Indexer</module>
+        <module>indexer.Indexer</module>
         <module>Quarry</module>
     </modules>
 

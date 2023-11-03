@@ -1,3 +1,7 @@
+package library.filemanagers;
+
+import library.FileManager;
+
 import java.io.*;
 import java.io.FileReader;
 

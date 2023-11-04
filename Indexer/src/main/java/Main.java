@@ -1,5 +1,5 @@
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        new Controller().controller();
+        new Controller().execute();
     }
 }

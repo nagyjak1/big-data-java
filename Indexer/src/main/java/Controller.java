@@ -15,19 +15,32 @@ import static java.lang.Thread.sleep;
 
 public class Controller {
     private final String root = "Crawler/datalake/";
+    private final DatamartManager datamartManager = new DatamartManager();
+    private final FolderManager folderManager = new FolderManager();
+    private final PathsProvider pathsProvider = new PathsProvider();
+    private final ContentFileManager contentFileManager = new ContentFileManager();
+    private final MetadataFileManager metadataFileManager = new MetadataFileManager();
+    private final Indexer indexer = new Indexer();
 
-    public void controller() throws InterruptedException {
-        DatamartManager datamartManager = new DatamartManager();
+    public void execute() throws InterruptedException {
         datamartManager.createDatamart();
-
-        FolderManager folderManager = new FolderManager();
         folderManager.createLibrary();
+        buildLibrary();
+        sleep(10000);
+        runIndexer();
+    }
 
-        PathsProvider pathsProvider = new PathsProvider();
+    private void runIndexer() {
+        try {
+            indexer.invertedIndex(folderManager.getContentPath());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        ContentFileManager contentFileManager = new ContentFileManager();
-        MetadataFileManager metadataFileManager = new MetadataFileManager();
+        folderManager.deleteLibrary();
+    }
 
+    private void buildLibrary() {
         try {
             for (String path : pathsProvider.provideAll(new DatePathBuilder().getPath(root))) {
                 Metadata metadata = new MetadataBuilder().build(path);
@@ -39,14 +52,5 @@ public class Controller {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        sleep(10000);
-        Indexer indexer = new Indexer();
-        try {
-            indexer.invertedIndex(folderManager.getContentPath());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        folderManager.deleteLibrary();
     }
 }

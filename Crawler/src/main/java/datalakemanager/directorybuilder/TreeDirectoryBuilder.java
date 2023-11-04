@@ -145,7 +145,7 @@ public class TreeDirectoryBuilder {
     }
 
     public void deleteRootDirectory() {
-        deleteDirectory( this.root.toFile() );
+        deleteDirectory(this.root.toFile());
     }
 
     private void deleteDirectory(File file) {

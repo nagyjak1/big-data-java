@@ -12,7 +12,7 @@
     <modules>
         <module>Crawler</module>
         <module>Indexer</module>
-        <module>Quarry</module>
+        <module>Query</module>
     </modules>
 
     <properties>

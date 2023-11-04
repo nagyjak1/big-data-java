@@ -5,13 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileManager {
-    public void createDirectory(String path) {
-        File file = new File(path);
-        if (!file.exists()) {
-            file.mkdirs();
-        }
-    }
-
     public void createFile(String filename) {
         try {
             File myObj = new File(filename);

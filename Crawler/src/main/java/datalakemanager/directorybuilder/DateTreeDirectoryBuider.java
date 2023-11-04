@@ -1,8 +1,6 @@
 package datalakemanager.directorybuilder;
 
 import datalakemanager.DateFormatter;
-import datalakemanager.FileManager;
-
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,7 +14,10 @@ public class DateTreeDirectoryBuider {
 
     public void createDirectory(String root) {
         File file = new File(root + "/" + datePath);
-        new FileManager().createDirectory(file.getPath());
+        File dateFile = new File(file.getPath());
+        if (!dateFile.exists()) {
+            dateFile.mkdirs();
+        }
     }
 
     public String getPath(String root) {

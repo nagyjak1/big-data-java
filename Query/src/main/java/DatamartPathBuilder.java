@@ -1,3 +1,5 @@
+import responsebuilder.wordtools.WordParser;
+
 public class DatamartPathBuilder {
     public String build(String word) {
         char firstChar = new WordParser().parseCharacter(word, 0);

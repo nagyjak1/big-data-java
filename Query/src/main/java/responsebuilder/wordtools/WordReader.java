@@ -1,3 +1,7 @@
+package responsebuilder.wordtools;
+
+import responsebuilder.Response;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

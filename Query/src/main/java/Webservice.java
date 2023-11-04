@@ -1,5 +1,9 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import responsebuilder.Response;
+import responsebuilder.Word;
+import responsebuilder.WordBuilder;
+import responsebuilder.wordtools.WordReader;
 
 import java.util.*;
 

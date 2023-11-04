@@ -29,6 +29,7 @@ public class Controller {
         sleep(10000);
         runIndexer();
         folderManager.deleteLibrary();
+        System.out.println("The Indexing has been done.");
     }
 
     private void runIndexer() throws InterruptedException {

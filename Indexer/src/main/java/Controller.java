@@ -28,16 +28,15 @@ public class Controller {
         buildLibrary();
         sleep(10000);
         runIndexer();
+        folderManager.deleteLibrary();
     }
 
-    private void runIndexer() {
+    private void runIndexer() throws InterruptedException {
         try {
             indexer.invertedIndex(folderManager.getContentPath());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        folderManager.deleteLibrary();
     }
 
     private void buildLibrary() {

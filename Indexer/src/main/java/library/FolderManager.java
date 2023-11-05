@@ -19,11 +19,9 @@ public class FolderManager {
         }
         if (!metadataFolder.exists()) {
             metadataFolder.mkdir();
-            System.out.println("Se creó metadata");
         }
         if (!contentFolder.exists()) {
             contentFolder.mkdir();
-            System.out.println("Se creó content");
         }
     }
 

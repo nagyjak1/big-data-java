@@ -19,7 +19,7 @@ public class DownloaderTimerTask extends TimerTask {
                 }
             }
         };
-        timer.schedule(timerTask, 0, 60000);
+        timer.schedule(timerTask, 0, 300000);
     }
 
     public void run() {

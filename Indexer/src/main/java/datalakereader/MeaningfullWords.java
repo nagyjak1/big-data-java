@@ -15,7 +15,7 @@ public interface MeaningfullWords {
     ));
 
     Set<String> determiners = new HashSet<>(Set.of(
-            "the", "some", "any", "all", "many", "few", "several",
+            "the", "some", "any", "aux","all", "many", "few", "several",
             "both", "neither", "either", "each", "every", "this", "that",
             "your", "his", "her", "its", "our", "their",
             "those", "these", "whose", "half", "much", "little",

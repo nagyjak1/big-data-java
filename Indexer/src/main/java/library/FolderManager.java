@@ -32,27 +32,4 @@ public class FolderManager {
     public String getMetadataPath() {
         return String.valueOf(metadataFolder);
     }
-
-    public void deleteLibrary() {
-        deleteFolder(metadataFolder);
-        deleteFolder(contentFolder);
-        deleteFolder(libraryFolder);
-    }
-
-    private void deleteFile(String path) throws IOException {
-        List<String> paths = new PathsProvider().provideAll(path);
-        for (String e : paths){
-            File file = new File(e);
-            file.delete();
-        }
-    }
-
-    private void deleteFolder(File contentFolder) {
-        try {
-            deleteFile(String.valueOf(contentFolder));
-            FileUtils.deleteDirectory(contentFolder);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

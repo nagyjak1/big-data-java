@@ -30,7 +30,6 @@ public class Controller {
         buildLibrary(set);
         sleep(10000);
         runIndexer();
-        folderManager.deleteLibrary();
         System.out.println("The Indexing has been done.");
     }
 
@@ -46,7 +45,6 @@ public class Controller {
         try {
             for (String path : pathsProvider.provideAll(new DatePathBuilder().getPath(root))) {
                 if (!check(path, set)) continue;
-                System.out.println(set.size());
                 Metadata metadata = new MetadataBuilder().build(path);
                 if (metadata.isInEnglish()) {
                     metadataFileManager.separate(new File(path));

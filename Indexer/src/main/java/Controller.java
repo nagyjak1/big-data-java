@@ -10,6 +10,8 @@ import paths.PathsProvider;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Set;
 
 import static java.lang.Thread.sleep;
 
@@ -22,10 +24,10 @@ public class Controller {
     private final MetadataFileManager metadataFileManager = new MetadataFileManager();
     private final Indexer indexer = new Indexer();
 
-    public void execute() throws InterruptedException {
+    public void execute(Set<Integer> set) throws InterruptedException {
         datamartManager.createDatamart();
         folderManager.createLibrary();
-        buildLibrary();
+        buildLibrary(set);
         sleep(10000);
         runIndexer();
         folderManager.deleteLibrary();
@@ -40,9 +42,11 @@ public class Controller {
         }
     }
 
-    private void buildLibrary() {
+    private void buildLibrary(Set<Integer> set) {
         try {
             for (String path : pathsProvider.provideAll(new DatePathBuilder().getPath(root))) {
+                if (!check(path, set)) continue;
+                System.out.println(set.size());
                 Metadata metadata = new MetadataBuilder().build(path);
                 if (metadata.isInEnglish()) {
                     metadataFileManager.separate(new File(path));
@@ -52,5 +56,16 @@ public class Controller {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private boolean check(String path, Set<Integer> set) {
+        Path dir = Path.of(path);
+        String book = String.valueOf(dir.getFileName());
+        int id = Integer.parseInt(book.replace("book", "").replace(".txt", ""));
+        if (!set.contains(id)) {
+            set.add(id);
+            return true;
+        }
+        return false;
     }
 }
